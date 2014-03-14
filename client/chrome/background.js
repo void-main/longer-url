@@ -15,7 +15,7 @@ var HttpClient = function() {
 // Called when the user clicks on the page action.
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === "loading") {
-    var serviceNames = ["bit.ly"];
+    var serviceNames = ["bit.ly", "j.mp"];
     // No tabs or host permissions needed!
     if (new RegExp(serviceNames.join("|")).test(tab.url)) {
       chrome.pageAction.show(tab.id);
