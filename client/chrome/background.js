@@ -14,16 +14,19 @@ var HttpClient = function() {
 
 // Called when the user clicks on the page action.
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  // No tabs or host permissions needed!
-  if (tab.url.indexOf("bit.ly") != -1) {
-    chrome.pageAction.show(tab.id);
-    aClient = new HttpClient();
-    console.log('Longer: ' + 'http://longer-url.herokuapp.com/parse?url=' + tab.url);
-    aClient.get('http://longer-url.herokuapp.com/parse?url=' + tab.url, function(answer) {
-      console.log(answer);
-      chrome.tabs.update(tab.id, {url: answer});
-    });
-  } else {
-    chrome.pageAction.hide(tab.id);
-  }
+  if (changeInfo.status === "loading") {
+    var serviceNames = ["bit.ly"];
+    // No tabs or host permissions needed!
+    if (new RegExp(serviceNames.join("|")).test(tab.url)) {
+      chrome.pageAction.show(tab.id);
+      aClient = new HttpClient();
+      console.log('Longer: ' + 'http://longer-url.herokuapp.com/parse?url=' + tab.url);
+      aClient.get('http://longer-url.herokuapp.com/parse?url=' + tab.url, function(answer) {
+        console.log(answer);
+        chrome.tabs.update(tab.id, {url: answer});
+      });
+    } else {
+      chrome.pageAction.hide(tab.id);
+    }
+  };
 });
