@@ -13,12 +13,17 @@ var HttpClient = function() {
 }
 
 // Called when the user clicks on the page action.
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   // No tabs or host permissions needed!
-  aClient = new HttpClient();
-  console.log('Longer: ' + 'http://longer-url.herokuapp.com/parse?url=' + tab.url);
-  aClient.get('http://longer-url.herokuapp.com/parse?url=' + tab.url, function(answer) {
-  	console.log(answer);
-    chrome.tabs.update(tab.id, {url: answer});
-  });
+  if (tab.url.indexOf("bit.ly") != -1) {
+    chrome.pageAction.show(tab.id);
+    aClient = new HttpClient();
+    console.log('Longer: ' + 'http://longer-url.herokuapp.com/parse?url=' + tab.url);
+    aClient.get('http://longer-url.herokuapp.com/parse?url=' + tab.url, function(answer) {
+      console.log(answer);
+      chrome.tabs.update(tab.id, {url: answer});
+    });
+  } else {
+    chrome.pageAction.hide(tab.id);
+  }
 });

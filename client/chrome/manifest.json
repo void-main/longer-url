@@ -6,13 +6,13 @@
   "version": "1.0",
 
   "background" : {
-    "persistent": false, 
+    "persistent": true, 
     "scripts": ["background.js"]
   },
   "permissions": [
-    "activeTab"
+    "tabs"
   ],
-  "browser_action": {
+  "page_action": {
     "default_title": "longer!"
   }
 }
