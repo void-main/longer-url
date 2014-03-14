@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "longer-url",
+  "description": "Make short-url service (kind of) available in the GFW.",
+  "version": "1.0",
+
+  "background" : {
+    "persistent": false, 
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "browser_action": {
+    "default_title": "longer!"
+  }
+}
